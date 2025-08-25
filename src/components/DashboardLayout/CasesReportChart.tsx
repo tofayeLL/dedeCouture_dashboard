@@ -1,134 +1,125 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client";
+"use client"
 
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Cell,
-} from "recharts";
-import { Card, CardContent, CardHeader/* , CardTitle */ } from "@/components/ui/card";
-/* import { Button } from "@/components/ui/button";
-import { ChevronDown } from "lucide-react";
-import { useState } from "react"; */
+import React from "react";
+import { Area, AreaChart, XAxis, YAxis, CartesianGrid, ResponsiveContainer, ReferenceLine, Dot, Tooltip } from "recharts"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
-// Sample data for the chart
-const chartData = [
-  { month: "Feb", activity: 110, displayActivity: 110, fullMonth: "February" },
-  { month: "Mar", activity: 78, displayActivity: 78, fullMonth: "March" },
-  { month: "Apr", activity: 72, displayActivity: 72, fullMonth: "April" },
-  { month: "May", activity: 91, displayActivity: 91, fullMonth: "May" },
-  { 
-    month: "Jun", 
-    activity: 4445489, 
-    displayActivity: 120, 
-    fullMonth: "June", 
-    isHighlighted: true 
-  },
-  { month: "Jul", activity: 82, displayActivity: 82, fullMonth: "July" },
-  { month: "Aug", activity: 88, displayActivity: 88, fullMonth: "August" },
-  { month: "Sep", activity: 75, displayActivity: 75, fullMonth: "September" },
-  { month: "Oct", activity: 63, displayActivity: 63, fullMonth: "October" },
-  { month: "Nov", activity: 45, displayActivity: 45, fullMonth: "November" },
-];
+// Sample earnings data matching the chart pattern
+const earningsData = [
+  { month: "Jan", revenue: 30000, displayMonth: "Jan" },
+  { month: "Feb", revenue: 42000, displayMonth: "Feb" },
+  { month: "Mar", revenue: 28000, displayMonth: "Mar" },
+  { month: "Apr", revenue: 40000, displayMonth: "Apr" },
+  { month: "May", revenue: 38000, displayMonth: "May" },
+  { month: "Jun", revenue: 48600, displayMonth: "Jun" },
+  { month: "Jul", revenue: 44000, displayMonth: "Jul" },
+  { month: "Aug", revenue: 39000, displayMonth: "Aug" },
+  { month: "Sep", revenue: 36000, displayMonth: "Sep" },
+  { month: "Oct", revenue: 45000, displayMonth: "Oct" },
+  { month: "Nov", revenue: 32000, displayMonth: "Nov" },
+  { month: "Dec", revenue: 38000, displayMonth: "Dec" },
+]
 
-// Custom tooltip component
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
-    const data = payload[0].payload;
+    const data = payload[0].payload
+    if (data.month === "Jun") {
+      return (
+        <div className="bg-[#FE0659] text-white px-3 py-2 rounded-lg shadow-lg">
+          <p className="font-medium">June 2024</p>
+          <p className="text-sm">Revenue: ${data.revenue.toLocaleString()}</p>
+        </div>
+      )
+    }
     return (
-      <div className="border border-gray-200 rounded-lg p-3 space-y-1 shadow-lg bg-white z-50 max-w-[200px]">
-        <p className="text-gray-700 font-medium">{`${label} 2025`}</p>
-        <p className="text-gray-700">
-          {data.activity.toLocaleString()} 
-        </p>
-        {data.isHighlighted && (
-          <p className="text-gray-700 font-medium">
-            Total Growth <span className="ml-6">+67%</span>
-          </p>
-        )}
+      <div className="bg-[#FE0659] text-white border border-gray-200 px-3 py-2 rounded-lg shadow-lg">
+        <p className="font-medium text-white">{label} 2024</p>
+        <p className="text-sm  text-white">Revenue: ${payload[0].value.toLocaleString()}</p>
       </div>
-    );
+    )
   }
-  return null;
-};
+  return null
+}
 
-export default function CasesReportChart() {
-
-  // const [timeFilter] = useState("Monthly");
-
+// Custom chart container component
+const ChartContainer = ({ children, className }: { children: React.ReactNode; className?: string }) => {
   return (
-    <Card className="w-full bg-[#FFF] flex flex-col justify-end item-end rounded-2xl">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0">
-     {/*    <CardTitle className="text-xl md:text-2xl font-semibold">
-          Activity Team
-        </CardTitle>
-        <div className="hidden md:flex items-center gap-6">
-         <div className="flex justify-center items-center gap-2">
-          <p className="bg-[#12AEC5] h-4 w-4 rounded"></p>
-          <h1>Revenue</h1>
-         </div>
-          <Button
-            variant="outline"
-            size="default"
-            className="text-base font-medium text-[#4A4A4A] bg-white rounded-xl hover:bg-gray-50 border-gray-200 py-3"
-          >
-            {timeFilter}
-            <ChevronDown className="ml-1 h-4 w-3" />
-          </Button>
-        </div> */}
-      </CardHeader>
+    <div className={className}>
+      {children}
+    </div>
+  )
+}
 
+// Find the maximum value in the data to highlight the top dot
+const maxRevenue = Math.max(...earningsData.map(item => item.revenue));
+
+export default function EarningsChart() {
+  return (
+    <Card className="w-full max-w-4xl bg-white">
+      <CardHeader className="flex flex-row items-center justify-between pb-2">
+        <CardTitle className="text-xl font-semibold text-gray-900">Earning Report</CardTitle>
+        <span className="text-sm text-gray-500 font-medium">2024</span>
+      </CardHeader>
       <CardContent>
-        <div className="w-full lg:h-[380px]">
+        <ChartContainer className="h-[400px] w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={chartData}
-              margin={{ top: 10, right: 10, left: 20, bottom: 20 }}
-              barCategoryGap="28%"
+            <AreaChart 
+              data={earningsData}  
+              margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
             >
-              <CartesianGrid
-                strokeDasharray="10 10"
-                stroke="rgba(129, 127, 155, 0.3)"
-                horizontal={true}
-                vertical={false}
-              />
+              <defs>
+                <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#FD6B22" stopOpacity={0.7} />
+                  <stop offset="100%" stopColor="#FD6B22" stopOpacity={0.09} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
               <XAxis
-                dataKey="month"
+                dataKey="displayMonth"
                 axisLine={false}
                 tickLine={false}
-                tick={{ fontSize: 16, fill: "#000000" }}
+                tick={{ fontSize: 16, fill: "#64748b" }}
+                // Fix x-axis alignment
+                padding={{ left: 10, right: 10 }}
+                interval={0}
               />
               <YAxis
-                domain={[0, 120]}
-                ticks={[0, 30, 60, 90, 120]}
-                interval={0}
+                domain={[0, 70000]}
+                tickFormatter={(value) => `$${value/1000}k`}
+                ticks={[0, 10000, 20000, 30000, 40000, 50000, 60000, 70000]}
                 axisLine={false}
                 tickLine={false}
-                tick={{ fontSize: 16, fill: "#000000" }}
+                tick={{ fontSize: 16, fill: "#64748b" }}
+                // Fix y-axis alignment
+                width={45}
+                padding={{ top: 0, bottom: 0 }}
               />
-              <Tooltip
-                content={<CustomTooltip />}
-                cursor={{ fill: "rgba(8, 145, 178, 0.1)" }}
-                wrapperStyle={{ outline: "none" }}
+              <Tooltip content={<CustomTooltip />} />
+              <Area
+                type="monotone"
+                dataKey="revenue"
+                stroke="#FD6B22"
+                strokeWidth={2}
+                fill="url(#revenueGradient)"
+                dot={(props) => {
+                  const { cx, cy, payload } = props;
+                  // Highlight only the top value dot (June with 48,600)
+                  if (payload.revenue === maxRevenue) {
+                    return <circle cx={cx} cy={cy} r={6} fill="#FE0659" stroke="#fff" strokeWidth={2} />;
+                  }
+                  return <circle cx={cx} cy={cy} r={0} fill="#FE0659" />;
+                }}
+                activeDot={{ r: 6, fill: "#FE0659", stroke: "#fff", strokeWidth: 2 }}
+                // Connect area to axes
+                connectNulls={true}
+                baseValue={0}
               />
-              <Bar dataKey="displayActivity" radius={[8, 8, 8, 8]} maxBarSize={60}>
-                {chartData.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={entry.isHighlighted ? "#0891B2" : "#C4EFF8"}
-                    style={{ cursor: "pointer" }}
-                  />
-                ))}
-              </Bar>
-            </BarChart>
+            </AreaChart>
           </ResponsiveContainer>
-        </div>
+        </ChartContainer>
       </CardContent>
     </Card>
-  );
+  )
 }
