@@ -49,7 +49,7 @@ const Review = () => {
       userImage: userImage,
       serviceType: "Fashion",
       rating: 4.9,
-      feedbackComment: "Excellent service, very professional."
+      feedbackComment: "Excellent service, very professional.",
     },
     {
       id: 2,
@@ -57,7 +57,7 @@ const Review = () => {
       userImage: userImage,
       serviceType: "Home Services",
       rating: 3.5,
-      feedbackComment: "Good but could be better."
+      feedbackComment: "Good but could be better.",
     },
     {
       id: 3,
@@ -65,7 +65,7 @@ const Review = () => {
       userImage: userImage,
       serviceType: "Electronics",
       rating: 5,
-      feedbackComment: "Perfect in every way!"
+      feedbackComment: "Perfect in every way!",
     },
     {
       id: 4,
@@ -73,7 +73,7 @@ const Review = () => {
       userImage: userImage,
       serviceType: "Fashion",
       rating: 2.3,
-      feedbackComment: "Disappointed with the quality."
+      feedbackComment: "Disappointed with the quality.",
     },
     {
       id: 5,
@@ -81,19 +81,21 @@ const Review = () => {
       userImage: userImage,
       serviceType: "Automotive",
       rating: 4.2,
-      feedbackComment: "Quick and efficient service."
-    }
+      feedbackComment: "Quick and efficient service.",
+    },
   ];
 
   // Filter reviews based on search and category
-  const filteredReviews = reviewsData.filter(review => {
-    const matchesSearch = review.userName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          review.serviceType.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          review.feedbackComment.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    const matchesCategory = selectedCategory === "all" || 
-                           review.serviceType.toLowerCase() === selectedCategory.toLowerCase();
-    
+  const filteredReviews = reviewsData.filter((review) => {
+    const matchesSearch =
+      review.userName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      review.serviceType.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      review.feedbackComment.toLowerCase().includes(searchQuery.toLowerCase());
+
+    const matchesCategory =
+      selectedCategory === "all" ||
+      review.serviceType.toLowerCase() === selectedCategory.toLowerCase();
+
     return matchesSearch && matchesCategory;
   });
 
@@ -106,11 +108,14 @@ const Review = () => {
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating % 1 >= 0.5;
     const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
-    
+
     return (
       <div className="flex items-center">
         {[...Array(fullStars)].map((_, i) => (
-          <Star key={`full-${i}`} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+          <Star
+            key={`full-${i}`}
+            className="w-4 h-4 fill-yellow-400 text-yellow-400"
+          />
         ))}
         {hasHalfStar && (
           <div className="relative">
@@ -123,7 +128,9 @@ const Review = () => {
         {[...Array(emptyStars)].map((_, i) => (
           <Star key={`empty-${i}`} className="w-4 h-4 text-gray-300" />
         ))}
-        <span className="ml-1 text-sm text-gray-600">({rating.toFixed(1)})</span>
+        <span className="ml-1 text-sm text-gray-600">
+          ({rating.toFixed(1)})
+        </span>
       </div>
     );
   };
@@ -196,7 +203,10 @@ const Review = () => {
                 <TableBody>
                   {filteredReviews.length > 0 ? (
                     filteredReviews.map((review) => (
-                      <TableRow key={review.id} className="border-b last:border-b-0 ">
+                      <TableRow
+                        key={review.id}
+                        className="border-b last:border-b-0 "
+                      >
                         <TableCell className="font-medium text-gray-700 py-3 px-4  flex justify-start items-center gap-2">
                           <span>
                             <Image
@@ -223,7 +233,10 @@ const Review = () => {
                     ))
                   ) : (
                     <TableRow>
-                      <TableCell colSpan={4} className="text-center py-4 text-gray-500">
+                      <TableCell
+                        colSpan={4}
+                        className="text-center py-4 text-gray-500"
+                      >
                         No reviews found
                       </TableCell>
                     </TableRow>
