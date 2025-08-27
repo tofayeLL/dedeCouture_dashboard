@@ -34,31 +34,27 @@ const NavbarSlider = ({ isOpen, toggleSidebar }: SidebarProps) => {
     { label: "Dashboard", route: "/", iconPath: <RxDashboard /> },
 
     {
-      label: "Admin Management",
-      route: "/admin/admin_Management",
+      label: "Brand Management",
+      route: "/admin/brand_Management",
       iconPath: <CiUser className="h-5 w-5" />,
     },
     {
-      label: "Staff Management",
-      route: "/admin/staff_Management",
+      label: "User Management",
+      route: "/admin/user_Management",
       iconPath: <BsPeople className="h-5 w-5" />,
     },
     {
-      label: "Responders Management",
-      route: "/admin/responders_Management",
+      label: "Review",
+      route: "/admin/review",
       iconPath: <HiOutlineOfficeBuilding className="w-5 h-5" />,
     },
 
     {
-      label: "Cases",
-      route: "/admin/cases",
+      label: "Help Center",
+      route: "/admin/help_Center",
       iconPath: <FaBriefcase className="w-5 h-5" />,
     },
-    {
-      label: "venue",
-      route: "/admin/venue/create",
-      iconPath: <FaBriefcase className="w-5 h-5" />,
-    },
+   
     {
       label: "Settings",
       route: "/settings",

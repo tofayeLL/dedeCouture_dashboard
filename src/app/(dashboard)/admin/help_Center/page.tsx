@@ -1,10 +1,10 @@
-import Cases from '@/components/Admin/Cases/Cases';
+import HelpCenter from '@/components/Admin/HelpCenter/HelpCenter';
 import React from 'react';
 
 const page = () => {
     return (
         <div>
-           <Cases />
+            <HelpCenter></HelpCenter>
             
         </div>
     );

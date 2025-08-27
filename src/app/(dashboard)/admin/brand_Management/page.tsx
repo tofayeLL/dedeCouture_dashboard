@@ -1,10 +1,10 @@
-import RespondersManagement from '@/components/Admin/RespondersManagement/RespondersManagement';
+import BrandManagement from '@/components/Admin/BrandManagement/BrandManagement';
 import React from 'react';
 
 const page = () => {
     return (
         <div>
-           <RespondersManagement />
+            <BrandManagement></BrandManagement>
             
         </div>
     );

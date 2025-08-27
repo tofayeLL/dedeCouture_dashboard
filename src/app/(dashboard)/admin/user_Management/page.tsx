@@ -1,10 +1,10 @@
-import AdminManagement from '@/components/Admin/AdminManagement/AdminManagement';
+import UserManagement from '@/components/Admin/UserManagement/UserManagement';
 import React from 'react';
 
 const page = () => {
     return (
         <div>
-            <AdminManagement />
+            <UserManagement></UserManagement>
             
         </div>
     );
