@@ -149,7 +149,7 @@ const UserManagement = () => {
                   </TableRow>
                 </TableBody>
               </Table>
-            </div>
+            </div> 
           </div>
         </div>
       </div>
