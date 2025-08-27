@@ -3,66 +3,97 @@
 import { useGetAllAdminAnalysisQuery } from "@/redux/api/adminApi";
 import React from "react";
 import { Loading } from "../ui/loading";
-
+import chart from "@/assets/images/chartImage/chart.png";
+import chart1 from "@/assets/images/chartImage/chart 1.png";
+import chart2 from "@/assets/images/chartImage/chart 2.png";
+import Image from "next/image";
 
 const DashboardStat = () => {
-const {data:allStatsData, isLoading} = useGetAllAdminAnalysisQuery({})
+  const { data: allStatsData, isLoading } = useGetAllAdminAnalysisQuery({});
 
-console.log("...",allStatsData);
+  console.log("...", allStatsData);
 
   if (isLoading) {
-     return (
-       <div className="flex items-center justify-center min-h-[70vh] bg-white">
-         <div className="flex items-center justify-center space-x-2">
-           <Loading></Loading>
-         </div>
-       </div>
-     );
-   }
- 
+    return (
+      <div className="flex items-center justify-center min-h-[70vh] bg-white">
+        <div className="flex items-center justify-center space-x-2">
+          <Loading></Loading>
+        </div>
+      </div>
+    );
+  }
 
   return (
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-  {/* Card 1 */}
-  <div className="bg-white rounded-xl shadow py-16">
-    <div className="flex flex-col items-center text-center">
-      <h1 className="font-medium text-lg text-gray-600">
-       Total Reports
-      </h1>
-      <p className="text-3xl font-bold text-gray-900 mt-3">{allStatsData?.result?.issueReports}</p>
-    </div>
-  </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Card 1 */}
+      <div className="bg-white rounded-xl flex flex-col justify-center item-center shadow py-4">
+        <div className="flex justify-between items-center lg:px-10 px-5">
+          <div className=" space-y-2">
+            <h1 className="font-medium text-lg text-gray-600">Active Brand</h1>
+            <p className="text-3xl font-bold text-[#FE0659]">200</p>
+            <p className="text-lg text-gray-900 mt-3">+10%</p>
+          </div>
+          {/* image */}
+          <div className="p-2.5 rounded-full">
+            <div className="relative w-32 h-32">
+              <Image
+                src={chart}
+                alt="chart"
+                fill
+                className="object-contain object-center"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Card 2 */}
+      <div className="bg-white rounded-xl flex flex-col justify-center item-center shadow py-4">
+        <div className="flex justify-between items-center lg:px-10 px-5">
+          <div className=" space-y-2">
+            <h1 className="font-medium text-lg text-gray-600">Active Brand</h1>
+            <p className="text-3xl font-bold text-[#FE0659] ">200</p>
+            <p className="text-lg text-gray-900 mt-3">+10%</p>
+          </div>
+          {/* image */}
+          <div className="p-2.5 rounded-full">
+            <div className="relative w-32 h-32">
+              <Image
+                src={chart1}
+                alt="chart"
+                fill
+                className="object-contain object-center"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Card 3 */}
+      <div className="bg-white rounded-xl flex flex-col justify-center item-center shadow py-4">
+        <div className="flex justify-between items-center lg:px-10 px-5">
+          <div className=" space-y-2">
+            <h1 className="font-medium text-lg text-gray-600">Active Brand</h1>
+            <p className="text-3xl font-bold text-[#FE0659] ">200</p>
+            <p className="text-lg text-gray-900 mt-3">+10%</p>
+          </div>
+          {/* image */}
+          <div className="p-2.5 rounded-full">
+            <div className="relative w-32 h-32">
+              <Image
+                src={chart2}
+                alt="chart"
+                fill
+                className="object-contain object-center"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
 
-  {/* Card 2 */}
-  <div className="bg-white rounded-xl shadow py-16">
-    <div className="flex flex-col items-center text-center">
-      <h1 className="font-medium text-lg text-gray-600">
-       Escalated Cases
-      </h1>
-      <p className="text-3xl font-bold text-gray-900 mt-3">{allStatsData?.result?.legalCases}K</p>
-    </div>
-  </div>
 
-  {/* Card 3 */}
-  <div className="bg-white rounded-xl shadow py-16">
-    <div className="flex flex-col items-center text-center">
-      <h1 className="font-medium text-lg text-gray-600">
-       Flagged Locations
-      </h1>
-      <p className="text-3xl font-bold text-gray-900 mt-3">{allStatsData?.result?.flaggesLocations}</p>
-    </div>
-  </div>
 
-  {/* Card 4 */}
-  <div className="bg-white rounded-xl shadow py-16">
-    <div className="flex flex-col items-center text-center">
-      <h1 className="font-medium text-lg text-gray-600">
-        Active Shelter Staff
-      </h1>
-      <p className="text-3xl font-bold text-gray-900 mt-3">{allStatsData?.result?.staffCount}</p>
+
+
     </div>
-  </div>
-</div>
   );
 };
 

@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
 
-import { useState } from "react";
+
 import eye from "@/assets/eyeIcon.png";
 import deleteIcon from "@/assets/icons/Warden Management/Delete.png";
 import edit from "@/assets/icons/Warden Management/Edit Square.png";
-import { Button } from "@/components/ui/button";
+
 import {
   Table,
   TableBody,
@@ -14,13 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 
@@ -73,18 +67,7 @@ const mockData: ActivityData[] = [
 ];
 
 const RecentActivityTable = () => {
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [selectedMonth, setSelectedMonth] = useState("august-2024");
 
-  const handleCategoryChange = (value: string) => {
-    setSelectedCategory(value);
-    // Add filtering logic here based on your needs
-  };
-
-  const handleMonthChange = (value: string) => {
-    setSelectedMonth(value);
-    // Add filtering logic here based on your needs
-  };
 
   return (
     <section>
@@ -93,39 +76,9 @@ const RecentActivityTable = () => {
           {/* Header with filters */}
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold text-gray-900">
-              Recent Activity
+              User Management
             </h2>
-            <div className="flex items-center gap-4">
-              <Select
-                value={selectedCategory}
-                onValueChange={handleCategoryChange}
-              >
-                <SelectTrigger className="">
-                  <SelectValue placeholder="All Category" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Category</SelectItem>
-                  <SelectItem value="training">Training</SelectItem>
-                  <SelectItem value="cases">Cases</SelectItem>
-                  <SelectItem value="reports">Reports</SelectItem>
-                </SelectContent>
-              </Select>
-
-              <Select value={selectedMonth} onValueChange={handleMonthChange}>
-                <SelectTrigger className="">
-                  <SelectValue placeholder="August 2024" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="august-2024">August 2024</SelectItem>
-                  <SelectItem value="july-2024">July 2024</SelectItem>
-                  <SelectItem value="june-2024">June 2024</SelectItem>
-                </SelectContent>
-              </Select>
-
-              <Button className="bg-transparent text-black hover:bg-transparent border border-gray">
-                See More
-              </Button>
-            </div>
+          
           </div>
 
           {/* Table */}

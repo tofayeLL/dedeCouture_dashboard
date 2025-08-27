@@ -2,9 +2,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
-import React from "react";
+import React, { useState } from "react";
 import { Area, AreaChart, XAxis, YAxis, CartesianGrid, ResponsiveContainer, ReferenceLine, Dot, Tooltip } from "recharts"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
 
 // Sample earnings data matching the chart pattern
 const earningsData = [
@@ -56,11 +57,30 @@ const ChartContainer = ({ children, className }: { children: React.ReactNode; cl
 const maxRevenue = Math.max(...earningsData.map(item => item.revenue));
 
 export default function EarningsChart() {
+
+
+      const [selectedCategory, setSelectedCategory] = useState("2024");
+
+  const handleCategoryChange = (value: string) => {
+    setSelectedCategory(value);
+    // Add filtering logic here based on your needs
+  };
+
   return (
-    <Card className="w-full max-w-4xl bg-white">
+    <Card className="w-full h-full bg-white">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="text-xl font-semibold text-gray-900">Earning Report</CardTitle>
-        <span className="text-sm text-gray-500 font-medium">2024</span>
+      <Select value={selectedCategory} onValueChange={handleCategoryChange}>
+            <SelectTrigger className="">
+              <SelectValue placeholder="2024" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="2024">2024</SelectItem>
+              <SelectItem value="Daily">Daily</SelectItem>
+              <SelectItem value="Weekly">Weekly</SelectItem>
+              <SelectItem value="Yearly">Yearly</SelectItem>
+            </SelectContent>
+          </Select> 
       </CardHeader>
       <CardContent>
         <ChartContainer className="h-[400px] w-full">
