@@ -23,7 +23,7 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 
-const StaffManagement = () => {
+const BrandManagement = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
 
   /*   const { data: AllStaffs, isLoading } = useGetAllStaffsQuery({});
@@ -44,12 +44,11 @@ const StaffManagement = () => {
   } */
 
   return (
-    <section>
-      <div>
-        <div className="bg-white p-6 rounded-2xl">
-          <div className="w-full space-y-4">
+   <section>
+        <div>
+          <div className="px-4 rounded-2xl">
             {/* Header with filters */}
-            <div className="flex items-center justify-between l">
+            <div className="flex items-center justify-between mb-8">
               <div className="">
                 <h1 className="text-xl font-semibold text-gray-900">
                   Brand Management
@@ -65,7 +64,7 @@ const StaffManagement = () => {
                   />
                   <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                 </div>
-
+  
                 <Select
                   value={selectedCategory}
                   onValueChange={handleCategoryChange}
@@ -83,26 +82,27 @@ const StaffManagement = () => {
                 </Select>
               </div>
             </div>
-
-            {/* Table */}
-            <div className="rounded-lg border bg-white overflow-hidden">
+  
+            <div className="w-full bg-white space-y-4 ">
+              {/* Table */}
+              <div className="rounded-lg border bg-white overflow-hidden ">
               <Table className="">
                 <TableHeader className="bg-[#F8FAFC]">
                   <TableRow className="border-b">
-                    <TableHead className=" text-base font-semibold">
+                    <TableHead className=" text-base font-semibold px-4">
                       Brand/Business
                     </TableHead>
-                    <TableHead className=" text-base font-semibold">
+                    <TableHead className=" text-base font-semibold px-4 ">
                       Category
                     </TableHead>
 
-                    <TableHead className=" text-base font-semibold">
+                    <TableHead className=" text-base font-semibold px-4 ">
                       Talent name
                     </TableHead>
-                    <TableHead className=" text-base font-semibold">
+                    <TableHead className=" text-base font-semibold px-4 ">
                       Address
                     </TableHead>
-                    <TableHead className=" text-base font-semibold">
+                    <TableHead className=" text-base font-semibold px-4 ">
                       Average Rating
                     </TableHead>
                   </TableRow>
@@ -110,20 +110,20 @@ const StaffManagement = () => {
 
                 <TableBody>
                   <TableRow className="border-b last:border-b-0">
-                    <TableCell className="font-medium text-gray-700 py-3 flex justify-start items-center gap-2">
+                    <TableCell className="font-medium text-gray-700 py-3 px-4 flex justify-start items-center gap-2">
                       Chic Boutique
                     </TableCell>
-                    <TableCell className="text-gray-700 py-3">
+                    <TableCell className="text-gray-700 py-3 px-4">
                       Fashion
                     </TableCell>
 
-                    <TableCell className="text-gray-700 py-3">
+                    <TableCell className="text-gray-700 py-3 px-4">
                       Devon Lane
                     </TableCell>
-                    <TableCell className="text-gray-700 py-3">
+                    <TableCell className="text-gray-700 py-3 px-4">
                       Springfield, IL 62704,USA
                     </TableCell>
-                    <TableCell className="text-gray-700 py-3">4.8</TableCell>
+                    <TableCell className="text-gray-700 py-3 px-4">4.8</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
@@ -135,4 +135,4 @@ const StaffManagement = () => {
   );
 };
 
-export default StaffManagement;
+export default BrandManagement;
