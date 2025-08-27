@@ -27,6 +27,8 @@ import userImage from "@/assets/User.png";
 
 // Define types for our review data
 import type { StaticImageData } from "next/image";
+import { Button } from "@/components/ui/button";
+import { FlagContentModal } from "./FlagContentModal";
 
 interface Review {
   id: number;
@@ -40,6 +42,12 @@ interface Review {
 const Review = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleFlagSubmit = (reason: string, comments: string) => {
+    console.log("Flag submitted:", { reason, comments });
+    // Handle the flag submission here
+  };
 
   // Sample data - replace with your actual data source
   const reviewsData: Review[] = [
@@ -146,6 +154,7 @@ const Review = () => {
                 User Reviews
               </h1>
             </div>
+
             <div className="flex lg:flex-row flex-col  items-center gap-4">
               {/* Search Input */}
               <div className="relative">
@@ -175,6 +184,13 @@ const Review = () => {
                   <SelectItem value="automotive">Automotive</SelectItem>
                 </SelectContent>
               </Select>
+
+              <Button
+                onClick={() => setIsModalOpen(true)}
+                className="border border-[#FE0659] hover:bg-white bg-white text-[#FE0659] cursor-pointer"
+              >
+                Flag Content
+              </Button>
             </div>
           </div>
 
@@ -247,6 +263,12 @@ const Review = () => {
           </div>
         </div>
       </div>
+      {/* Add the FlagContentModal at the end */}
+      <FlagContentModal
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        onSubmit={handleFlagSubmit}
+      />
     </section>
   );
 };

@@ -333,7 +333,7 @@ const BasicSection = () => {
       <Button
         onClick={handleSave}
         disabled={isLoading}
-        className="bg-[#00A8CC] hover:bg-[#00A8CC80] text-white px-8 mt-6 py-3"
+        className="bg-[#FE0659] hover:bg-[#FE0659] text-white px-8 mt-6 py-3"
       >
         {isLoading ? "Saving..." : "Save Changes"}
       </Button>
