@@ -36,10 +36,10 @@ const initialState: AuthState = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {
+    reducers: {
     setUser: (state, action) => {
       console.log(action);
-      state.role = action.payload.adminInfo.role;
+      state.role = action.payload.userInfo.role;
       state.token = action.payload.accessToken;
       state.adminInfo = action.payload.adminInfo;
     },

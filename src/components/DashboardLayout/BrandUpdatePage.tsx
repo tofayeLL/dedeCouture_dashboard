@@ -22,11 +22,11 @@ const brandUpdates: BrandUpdateItem[] = [
 const getStatusBadge = (status: string) => {
   switch (status) {
     case "approved":
-      return <Badge className="bg-green-500 hover:bg-green-600 text-lg text-white px-6 py-1 lg:w-[30%] rounded-md">Approved</Badge>
+      return <Badge className="bg-green-500 hover:bg-green-600 text-lg text-white px-6 py-1 lg:w-[25%] rounded-md">Approved</Badge>
     case "pending":
-      return <Badge className="bg-blue-500 hover:bg-blue-600 text-lg text-white px-6 py-1 lg:w-[30%] rounded-md">Pending</Badge>
+      return <Badge className="bg-blue-500 hover:bg-blue-600 text-lg text-white px-6 py-1 lg:w-[25%] rounded-md">Pending</Badge>
     case "rejected":
-      return <Badge className="bg-red-500 hover:bg-red-600 text-lg text-white px-6 py-1 lg:w-[30%] rounded-md">Rejected</Badge>
+      return <Badge className="bg-red-500 hover:bg-red-600 text-lg text-white px-6 py-1 lg:w-[25%] rounded-md">Rejected</Badge>
     default:
       return null
   }

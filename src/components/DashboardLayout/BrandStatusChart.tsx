@@ -2,8 +2,7 @@
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from "recharts"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
-import { useState } from "react"
+
 
 const data = [
   { day: "Mon", approved: 0, rejected: 0 },
@@ -17,22 +16,22 @@ const data = [
 
 export function BrandStatusChart() {
 
-    const [selectedCategory, setSelectedCategory] = useState("Monthly");
+  /*   const [selectedCategory, setSelectedCategory] = useState("Monthly");
 
   const handleCategoryChange = (value: string) => {
     setSelectedCategory(value);
     // Add filtering logic here based on your needs
   };
-
+ */
 
 
 
 
   return (
-    <Card className="w-full max-w-2xl bg-white shadow-sm">
+    <Card className="w-full  h-full max-w-2xl bg-white shadow-sm">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-6">
-        <h2 className="text-xl font-semibold text-gray-900">Brand Status</h2>
-         <Select value={selectedCategory} onValueChange={handleCategoryChange}>
+        <h2 className="text-xl font-semibold text-gray-900">Review Status</h2>
+         {/* <Select value={selectedCategory} onValueChange={handleCategoryChange}>
             <SelectTrigger className="">
               <SelectValue placeholder="Monthly" />
             </SelectTrigger>
@@ -42,7 +41,7 @@ export function BrandStatusChart() {
               <SelectItem value="Weekly">Weekly</SelectItem>
               <SelectItem value="Yearly">Yearly</SelectItem>
             </SelectContent>
-          </Select> 
+          </Select> */} 
       </CardHeader>
       <CardContent className="pb-6">
         <div className="h-64 w-full">
@@ -79,11 +78,11 @@ export function BrandStatusChart() {
         <div className="flex justify-center items-center gap-6 mt-6">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 bg-green-500 rounded"></div>
-            <span className="text-sm text-gray-700">Approved</span>
+            <span className="text-sm text-gray-700">Good Reviews</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 bg-pink-500 rounded"></div>
-            <span className="text-sm text-gray-700">Rejected</span>
+            <span className="text-sm text-gray-700">Bad Reviews</span>
           </div>
         </div>
       </CardContent>

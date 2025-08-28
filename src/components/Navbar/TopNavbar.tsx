@@ -14,9 +14,9 @@ import {
 import { formatChatDate } from "@/lib/formateTimeStamp";
 
 import userImage from "@/assets/images/userImage.jpg";
-import { useSelector } from "react-redux";
-import { useAuth } from "@/redux/features/authSlice";
+
 import { ChevronDown } from "lucide-react";
+import { useGetMyProfileQuery } from "@/redux/api/settingsApi";
 
 
 // import Link from "next/link";
@@ -38,14 +38,21 @@ type UpdateNotificationPayload = {
 };
 
 const TopNavbar = () => {
+  // get my profile
+
+  const { data: myProfile } = useGetMyProfileQuery({});
+  console.log("myprofile", myProfile);
+  console.log("myprofile", myProfile?.result?.profileImage);
+
   const { data: notificationsData, refetch } = useGetMyNotificationsQuery({});
   const [updateNotification] = useUpdateNotificationMutation();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const notifications: NotificationType[] = notificationsData?.result || [];
-  const authState = useSelector(useAuth)
-  console.log("to navbar",authState);
-  console.log("to navbar",authState?.adminInfo?.profileImage);
+
+  /*   const authState = useSelector(useAuth)
+  console.log("to navbar auth",authState);
+  console.log("to navbar",authState); */
 
   const unreadCount = notifications.filter((n) => !n.isRead).length;
 
@@ -69,7 +76,7 @@ const TopNavbar = () => {
         <div className=" flex justify-center items-center gap-5">
        <div>
            <p className="text-lg font-medium text-gray-500">welcome</p>
-           <p className="lg:text-xl text-[#FE0659]">Devon Lane</p>
+           <p className="lg:text-xl text-[#FE0659]">{myProfile?.result?.userName || "Devon Lane"}</p>
        </div>
         </div>
        
@@ -88,14 +95,14 @@ const TopNavbar = () => {
           {/* Profile */}
           <div className="flex justify-center items-center gap-3 text-[#636F85] font-medium bg-[#F5F9FC] rounded-3xl px-3 py-1.5 h-full">
             <Image
-              src={ userImage}
+              src={ myProfile?.result?.profileImage || userImage}
               height={50}
               width={50}
               alt="avatar"
               className="rounded-full w-8 h-8"
               priority
             />
-            <p className="text-[#FE0659]">{authState.role}</p>
+            <p className="text-[#FE0659]">{myProfile?.result?.role || "not found"}</p>
             <ChevronDown />
           </div>
         </div>

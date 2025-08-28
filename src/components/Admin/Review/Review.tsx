@@ -1,6 +1,7 @@
+/* eslint-disable react/jsx-no-undef */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 /* 
 import deleteIcon from "@/assets/icons/Warden Management/Delete.png";
 import edit from "@/assets/icons/Warden Management/Edit Square.png"; */
@@ -21,14 +22,18 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import Image from "next/image";
-import userImage from "@/assets/User.png";
+// import userImage from "@/assets/User.png";
 
 // Define types for our review data
 import type { StaticImageData } from "next/image";
 import { Button } from "@/components/ui/button";
 import { FlagContentModal } from "./FlagContentModal";
+import { Loading } from "@/components/ui/loading";
+import { useGetAllReviewQuery } from "@/redux/api/reviewsAPi";
+import { useGetAllCategoryQuery } from "@/redux/api/CategoryApi";
 
 interface Review {
   id: number;
@@ -41,74 +46,52 @@ interface Review {
 
 const Review = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleFlagSubmit = (reason: string, comments: string) => {
     console.log("Flag submitted:", { reason, comments });
     // Handle the flag submission here
   };
+  const [limit] = useState(5);
 
-  // Sample data - replace with your actual data source
-  const reviewsData: Review[] = [
-    {
-      id: 1,
-      userName: "John Doe",
-      userImage: userImage,
-      serviceType: "Fashion",
-      rating: 4.9,
-      feedbackComment: "Excellent service, very professional.",
-    },
-    {
-      id: 2,
-      userName: "Jane Smith",
-      userImage: userImage,
-      serviceType: "Home Services",
-      rating: 3.5,
-      feedbackComment: "Good but could be better.",
-    },
-    {
-      id: 3,
-      userName: "Robert Johnson",
-      userImage: userImage,
-      serviceType: "Electronics",
-      rating: 5,
-      feedbackComment: "Perfect in every way!",
-    },
-    {
-      id: 4,
-      userName: "Emily Davis",
-      userImage: userImage,
-      serviceType: "Fashion",
-      rating: 2.3,
-      feedbackComment: "Disappointed with the quality.",
-    },
-    {
-      id: 5,
-      userName: "Michael Wilson",
-      userImage: userImage,
-      serviceType: "Automotive",
-      rating: 4.2,
-      feedbackComment: "Quick and efficient service.",
-    },
-  ];
-
-  // Filter reviews based on search and category
-  const filteredReviews = reviewsData.filter((review) => {
-    const matchesSearch =
-      review.userName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      review.serviceType.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      review.feedbackComment.toLowerCase().includes(searchQuery.toLowerCase());
-
-    const matchesCategory =
-      selectedCategory === "all" ||
-      review.serviceType.toLowerCase() === selectedCategory.toLowerCase();
-
-    return matchesSearch && matchesCategory;
+  // Fetch reviews with search parameter
+  const { data: reviewsData, isLoading: reviewsLoading } = useGetAllReviewQuery({
+    page: currentPage,
+    limit: limit,
+    search: searchTerm,
   });
+  console.log("....reviews Data", reviewsData);
+
+  // Fetch categories for filter
+  const { data: categoriesData, isLoading: categoriesLoading } =
+    useGetAllCategoryQuery({});
+
+  console.log("....Categories Data", categoriesData);
+
+  // Filter reviews by category (client-side filtering after search)
+  const filteredReviews = useMemo(() => {
+    if (!reviewsData?.result?.reviews) return [];
+
+    let reviews = reviewsData?.result?.reviews;
+
+    if (selectedCategory !== "all") {
+      reviews = reviews.filter(
+        (brand: any) => brand?.brand?.category?.categoryName === selectedCategory
+      );
+    }
+
+    return reviews;
+  }, [reviewsData, selectedCategory]);
 
   const handleCategoryChange = (value: string) => {
     setSelectedCategory(value);
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+    setCurrentPage(1); // Reset to first page when searching
   };
 
   // Component to render star ratings
@@ -143,6 +126,16 @@ const Review = () => {
     );
   };
 
+  if (reviewsLoading || categoriesLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[70vh] bg-white">
+        <div className="flex items-center justify-center space-x-2">
+          <Loading></Loading>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <section>
       <div>
@@ -151,19 +144,18 @@ const Review = () => {
           <div className="flex items-center justify-between mb-8">
             <div className="">
               <h1 className="text-xl font-semibold text-gray-900">
-                User Reviews
+                Brand Management
               </h1>
             </div>
-
-            <div className="flex lg:flex-row flex-col  items-center gap-4">
+            <div className="flex lg:flex-row flex-col items-center gap-4">
               {/* Search Input */}
               <div className="relative">
                 <Input
                   type="text"
-                  placeholder="Search"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className=" pr-4 py-2 lg:w-40 bg-white border-gray-200 focus:bg-white focus:border-gray-300 focus:ring-1 focus:ring-gray-300"
+                  placeholder="Search by service or comment"
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                  className="pr-10 py-2 lg:w-72 bg-white border-gray-200 focus:bg-white focus:border-gray-300 focus:ring-1 focus:ring-gray-300"
                 />
                 <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
               </div>
@@ -172,16 +164,20 @@ const Review = () => {
                 value={selectedCategory}
                 onValueChange={handleCategoryChange}
               >
-                <SelectTrigger className="">
-                  <Filter className="h-4 w-4 text-[#FE0659]" />
-                  Filter
+                <SelectTrigger className="lg:w-40">
+                  <Filter className="h-4 w-4 text-[#FE0659] mr-2" />
+                  <SelectValue placeholder="Filter" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Categories</SelectItem>
-                  <SelectItem value="fashion">Fashion</SelectItem>
-                  <SelectItem value="home services">Home Services</SelectItem>
-                  <SelectItem value="electronics">Electronics</SelectItem>
-                  <SelectItem value="automotive">Automotive</SelectItem>
+                  <SelectItem value="all">All</SelectItem>
+                  {categoriesData?.result?.map((category: any) => (
+                    <SelectItem
+                      key={category.id || category._id}
+                      value={category.categoryName}
+                    >
+                      {category.categoryName}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
 
@@ -211,6 +207,9 @@ const Review = () => {
                       Rating
                     </TableHead>
                     <TableHead className=" text-base font-semibold px-4">
+                     Category
+                    </TableHead>
+                    <TableHead className=" text-base font-semibold px-4">
                       Feedback Comment
                     </TableHead>
                   </TableRow>
@@ -218,7 +217,7 @@ const Review = () => {
 
                 <TableBody>
                   {filteredReviews.length > 0 ? (
-                    filteredReviews.map((review) => (
+                    filteredReviews.map((review: any) => (
                       <TableRow
                         key={review.id}
                         className="border-b last:border-b-0 "
@@ -226,24 +225,27 @@ const Review = () => {
                         <TableCell className="font-medium text-gray-700 py-3 px-4  flex justify-start items-center gap-2">
                           <span>
                             <Image
-                              src={review.userImage}
+                              src={review?.user?.profileImage}
                               alt="user image"
                               width={40}
                               height={40}
                               className="rounded-sm object-cover w-10 h-10"
                             />
                           </span>{" "}
-                          {review.userName}
+                          {review?.user?.userName}
                         </TableCell>
                         <TableCell className="text-gray-700 py-3 px-4">
-                          {review.serviceType}
+                          {review?.brand?.brandName}
                         </TableCell>
 
                         <TableCell className="text-gray-700 py-3 px-4">
-                          {renderRating(review.rating)}
+                          {renderRating(review?.rating)}
+                        </TableCell>
+                        <TableCell className="text-gray-700 py-3 px-4">
+                          {review?.brand.category?.categoryName || "N/A"}
                         </TableCell>
                         <TableCell className="text-gray-700 px-4 space-x-3">
-                          {review.feedbackComment}
+                          {review?.comment}
                         </TableCell>
                       </TableRow>
                     ))

@@ -80,16 +80,18 @@ export default function Login() {
     };
 
     try {
-      const response = await login({ body }).unwrap();
+       const response = await login({ body }).unwrap();
+      console.log("login response", response);
+      console.log(response?.result?.userInfo?.role);
       if (response.success) {
         toast.success(response.message);
         Cookies.set("token", response?.result?.accessToken);
-        Cookies.set("role", response.result?.adminInfo?.role);
-        dispatch(setUser(response.result));
-        console.log(response);
+        Cookies.set("role", response?.result?.userInfo?.role);
+        dispatch(setUser(response?.result));
+        console.log("login response", response);
         console.log(response?.result?.accessToken);
-        console.log(response.result.adminInfo.role);
-        console.log(response.result);
+        console.log(response?.result?.userInfo?.role);
+        console.log(response?.result);
         route.push("/");
       }
     } catch (error) {
@@ -202,9 +204,9 @@ export default function Login() {
                   </button>
                   <span className="ml-3 text-sm text-gray-700">Remember Me</span>
                 </div>
-                <a href="#" className="text-sm text-[#FE0659] hover:text-[#FE0659] font-medium">
+               {/*  <a href="#" className="text-sm text-[#FE0659] hover:text-[#FE0659] font-medium">
                   Forgot Password?
-                </a>
+                </a> */}
               </div>
 
               {/* Login Button */}

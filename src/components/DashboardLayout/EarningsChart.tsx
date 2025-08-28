@@ -24,7 +24,7 @@ import {
 } from "../ui/select";
 
 // Sample earnings data matching the chart pattern
-const earningsData = [
+const brandData = [
   { month: "Jan", revenue: 30000, displayMonth: "Jan" },
   { month: "Feb", revenue: 42000, displayMonth: "Feb" },
   { month: "Mar", revenue: 28000, displayMonth: "Mar" },
@@ -74,7 +74,7 @@ const ChartContainer = ({
 };
 
 // Find the maximum value in the data to highlight the top dot
-const maxRevenue = Math.max(...earningsData.map((item) => item.revenue));
+const maxRevenue = Math.max(...brandData.map((item) => item.revenue));
 
 export default function EarningsChart() {
   const [selectedCategory, setSelectedCategory] = useState("2024");
@@ -88,7 +88,7 @@ export default function EarningsChart() {
     <Card className="w-full h-full bg-white">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="text-xl font-semibold text-gray-900">
-          Earning Report
+          Brand Report
         </CardTitle>
         <Select value={selectedCategory} onValueChange={handleCategoryChange}>
           <SelectTrigger className="">
@@ -106,7 +106,7 @@ export default function EarningsChart() {
         <ChartContainer className="h-[400px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
-              data={earningsData}
+              data={brandData}
               margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
             >
               <defs>
